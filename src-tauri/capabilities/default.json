@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Permisos mínimos: eventos y la propia ventana. La web se abre y el arranque con el sistema se cambia desde comandos del núcleo; sin acceso al sistema de archivos.",
+  "windows": ["onboarding", "checkin", "scale", "exercise", "dashboard"],
+  "permissions": ["core:default", "core:window:allow-close", "core:window:allow-start-dragging"]
+}

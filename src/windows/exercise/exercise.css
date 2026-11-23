@@ -1,0 +1,98 @@
+.ex {
+  grid-template-rows: auto 1fr;
+}
+.ex-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 20px 18px;
+  min-height: 0;
+}
+.ex-body h2 {
+  font-size: 21px;
+}
+.ex-hero {
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  height: 96px;
+  border-radius: var(--r-lg);
+  background: var(--brand-tint);
+}
+.ex-text {
+  font-size: 14px;
+}
+.ex-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s1);
+  margin-top: auto;
+}
+.ex-center {
+  flex: 1;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--s3);
+  text-align: center;
+}
+.ex-thanks {
+  font-size: 18px;
+  line-height: 1.4;
+  max-width: 28ch;
+}
+.ex-run-title {
+  font-size: 18px !important;
+}
+.ex-breath {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 8px 0 4px;
+}
+.ex-bars {
+  width: 120px;
+  height: 120px;
+  overflow: visible;
+}
+.ex-short {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scaleY(var(--grow, 1));
+  transition: transform 4s ease-in-out;
+}
+.ex-step {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+}
+.ex-count {
+  position: absolute;
+  top: 6px;
+  right: 18px;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.ex-timer {
+  display: grid;
+  gap: 8px;
+  margin-top: auto;
+}
+.ex-track {
+  height: 4px;
+  border-radius: 99px;
+  background: var(--brand-tint);
+  overflow: hidden;
+}
+.ex-track span {
+  display: block;
+  height: 100%;
+  background: var(--brand);
+  transition: width 1s linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ex-short {
+    transition: none;
+  }
+}

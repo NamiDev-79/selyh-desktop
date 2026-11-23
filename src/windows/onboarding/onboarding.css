@@ -1,0 +1,119 @@
+.ob {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--s4);
+  padding: var(--s4) var(--s5) var(--s5);
+  background: var(--surface);
+}
+.ob-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+.ob-progress {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+/* El avance son barras de pausa: las completadas, índigo y altas. */
+.ob-progress span {
+  width: 6px;
+  height: 10px;
+  border-radius: 99px;
+  background: var(--line-strong);
+  transition: height 0.38s var(--ease-spring), background-color 0.38s;
+}
+.ob-progress span[data-on="true"] {
+  height: 16px;
+  background: var(--brand);
+}
+.ob-body {
+  display: grid;
+  gap: var(--s3);
+  align-content: start;
+}
+.ob-body h1 {
+  font-size: 30px;
+}
+.ob-hero {
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  height: 132px;
+  border-radius: var(--r-lg);
+  background: var(--brand-tint);
+}
+.ob-tagline {
+  font-size: 17px;
+  color: var(--brand-strong);
+}
+.ob-list {
+  display: grid;
+  gap: var(--s2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ob-list li {
+  display: flex;
+  gap: var(--s2);
+  align-items: flex-start;
+}
+.ob-check {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 99px;
+  background: var(--brand-tint);
+  color: var(--brand-strong);
+}
+.ob-check .icon {
+  stroke-width: 3;
+}
+.ob-never {
+  display: grid;
+  gap: var(--s2);
+  box-shadow: none;
+  background: var(--surface-raised);
+}
+.ob-never-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+.ob-struck {
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-faint);
+}
+.ob-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding-top: var(--s1);
+}
+.ob-code {
+  justify-self: start;
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: var(--s3) var(--s4);
+  border-radius: var(--r-lg);
+  background: var(--brand-tint);
+  color: var(--brand-strong);
+  user-select: text;
+}
+.ob-code-skeleton {
+  width: 280px;
+  height: 84px;
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+.ob-hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
