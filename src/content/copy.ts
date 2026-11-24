@@ -29,6 +29,33 @@ export const checkinCopy = {
   autoCloseSeconds: 45,
 };
 
+/** Pregunta de sueño tras el primer check-in del día (permiso SLEEP, apagado por defecto). */
+export const sleepCopy = {
+  question: "¿Cómo dormiste anoche?",
+  hoursPrompt: "¿Cuántas horas, más o menos? (opcional)",
+  quality: [
+    { value: 1, label: "Muy mal" },
+    { value: 2, label: "Mal" },
+    { value: 3, label: "Regular" },
+    { value: 4, label: "Bien" },
+    { value: 5, label: "Muy bien" },
+  ],
+  hours: [
+    { value: 4.5, label: "< 5 h" },
+    { value: 5.5, label: "5–6" },
+    { value: 6.5, label: "6–7" },
+    { value: 7.5, label: "7–8" },
+    { value: 8.5, label: "8 h +" },
+  ],
+  save: "Guardar",
+  skip: "Hoy no",
+  saved: "Anotado. Lo tendremos en cuenta frente a tu ritmo habitual.",
+  consent: {
+    title: "Sueño (opcional)",
+    body: "Tras tu primer check-in del día, te preguntamos cómo dormiste. Es un dato de salud: solo se usa para tu línea personal y nunca se infiere de tu equipo.",
+  },
+};
+
 export const onboardingCopy = {
   welcome: {
     title: "Hola, soy Selyh",

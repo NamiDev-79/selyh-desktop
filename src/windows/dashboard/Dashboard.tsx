@@ -1,7 +1,7 @@
 import { type CSSProperties, useCallback, useEffect, useState } from "react";
 
 import { Bars, Icon, Logo, Notice, SettingRow, Switch } from "@/components/ui";
-import { crisisLine, dashboardCopy as d, exerciseCopy, onboardingCopy, scale, signalLabels, signalStatus, tags } from "@/content/copy";
+import { crisisLine, dashboardCopy as d, exerciseCopy, onboardingCopy, scale, signalLabels, signalStatus, sleepCopy, tags } from "@/content/copy";
 import { agent, type Analytics, errorText, type LocalCheckin, type Preferences, type SignalDay, type SignalsOverview, type Status } from "@/lib/agent";
 
 import "./dashboard.css";
@@ -283,6 +283,7 @@ function Transparency({ status }: { status: Status | null }) {
 function PreferencesTab({ status, onChange }: { status: Status | null; onChange: () => void }) {
   const [prefs, setPrefs] = useState<Preferences | null>(null);
   const [checkinConsent, setCheckinConsent] = useState<boolean | null>(null);
+  const [sleepConsent, setSleepConsent] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
   const p = onboardingCopy.prefs;
 
@@ -290,7 +291,10 @@ function PreferencesTab({ status, onChange }: { status: Status | null; onChange:
     agent.preferences().then(setPrefs).catch((e) => setError(errorText(e)));
     agent
       .consent()
-      .then((c) => setCheckinConsent(c.find((x) => x.dataSource === "CHECKIN")?.granted ?? false))
+      .then((c) => {
+        setCheckinConsent(c.find((x) => x.dataSource === "CHECKIN")?.granted ?? false);
+        setSleepConsent(c.find((x) => x.dataSource === "SLEEP")?.granted ?? false);
+      })
       .catch(() => null);
   }, []);
 
@@ -312,6 +316,19 @@ function PreferencesTab({ status, onChange }: { status: Status | null; onChange:
       <div className="card stack" style={{ "--gap": "14px" } as CSSProperties}>
         <SettingRow title={p.reminders}>
           <Switch checked={prefs?.checkinReminders ?? false} disabled={!prefs} onChange={(v) => void patch({ checkinReminders: v })} label={p.reminders} />
+        </SettingRow>
+        <SettingRow title={sleepCopy.consent.title} body={sleepCopy.consent.body}>
+          <Switch
+            checked={sleepConsent ?? false}
+            disabled={sleepConsent === null}
+            onChange={(v) =>
+              void agent
+                .setConsent("SLEEP", v)
+                .then((c) => setSleepConsent(c.find((x) => x.dataSource === "SLEEP")?.granted ?? false))
+                .catch((e) => setError(errorText(e)))
+            }
+            label={sleepCopy.consent.title}
+          />
         </SettingRow>
         <SettingRow title={p.focus}>
           <Switch checked={prefs?.focusMode ?? false} disabled={!prefs} onChange={(v) => void patch({ focusMode: v })} label={p.focus} />

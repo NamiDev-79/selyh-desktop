@@ -127,3 +127,39 @@ kbd {
   white-space: normal;
   text-align: left;
 }
+
+/* Sueño: tras el primer check-in del día. */
+.sleep {
+  gap: 8px;
+}
+.sleep-q {
+  margin: 0;
+  font-weight: 600;
+}
+.sleep-opts {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+.sleep-opts button {
+  min-height: 30px;
+  padding: 0 2px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.sleep-opts button:hover:not(:disabled),
+.sleep-opts button:focus-visible {
+  border-color: var(--brand-soft);
+  background: var(--brand-tint);
+}
+.sleep-opts button[aria-checked="true"] {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}

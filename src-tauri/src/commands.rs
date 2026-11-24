@@ -146,12 +146,46 @@ pub async fn get_analytics(state: State<'_, AppState>) -> R<Value> {
     state.api.call(Method::GET, "/analytics/me", None).await
 }
 
+fn valid_date(d: &str) -> bool {
+    d.len() == 10 && d.bytes().enumerate().all(|(i, b)| if i == 4 || i == 7 { b == b'-' } else { b.is_ascii_digit() })
+}
+
+/// ¿Preguntar hoy cómo dormiste? Solo con el permiso SLEEP y si aún no se registró hoy en ningún dispositivo.
+/// `date` es el día local (AAAA-MM-DD) en que te despertaste.
+#[tauri::command]
+pub async fn sleep_prompt(state: State<'_, AppState>, date: String) -> R<bool> {
+    if !valid_date(&date) {
+        return Ok(false);
+    }
+    let consent = state.api.call(Method::GET, "/consent", None).await?;
+    let granted = consent.as_array().is_some_and(|a| a.iter().any(|r| r["dataSource"] == "SLEEP" && r["granted"] == true));
+    if !granted {
+        return Ok(false);
+    }
+    let rows = state.api.call(Method::GET, "/signals?days=2", None).await?;
+    let done = rows.as_array().is_some_and(|a| a.iter().any(|r| r["sourceType"] == "SLEEP" && r["date"] == date.as_str()));
+    Ok(!done)
+}
+
+/// Guarda cómo dormiste: calidad 1–5 y horas aproximadas (opcional).
+#[tauri::command]
+pub async fn log_sleep(state: State<'_, AppState>, date: String, quality: u8, hours: Option<f64>) -> R<Value> {
+    if !valid_date(&date) || !(1..=5).contains(&quality) || hours.is_some_and(|h| !(0.0..=16.0).contains(&h)) {
+        return Err(ApiError::Http { status: 400, code: Some("INVALID".into()), message: "Dato de sueño inválido".into() });
+    }
+    let mut metrics = json!({ "quality": quality });
+    if let Some(h) = hours {
+        metrics["hours"] = json!(h);
+    }
+    state.api.call(Method::POST, "/signals", Some(&json!({ "date": date, "sourceType": "SLEEP", "metrics": metrics }))).await
+}
+
 #[tauri::command]
 pub async fn get_consent(state: State<'_, AppState>) -> R<Value> {
     state.api.call(Method::GET, "/consent", None).await
 }
 
-const SOURCES: [&str; 6] = ["CHECKIN", "CALENDAR", "IDE_GIT", "WEARABLE", "BIOMETRIC", "DESKTOP"];
+const SOURCES: [&str; 7] = ["CHECKIN", "CALENDAR", "IDE_GIT", "WEARABLE", "BIOMETRIC", "DESKTOP", "SLEEP"];
 
 #[tauri::command]
 pub async fn set_consent(app: AppHandle, state: State<'_, AppState>, source: String, granted: bool) -> R<Value> {

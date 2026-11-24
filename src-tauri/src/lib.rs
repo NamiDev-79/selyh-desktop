@@ -62,6 +62,8 @@ pub fn run() {
             commands::sync_now,
             commands::get_analytics,
             commands::get_consent,
+            commands::sleep_prompt,
+            commands::log_sleep,
             commands::set_consent,
             commands::get_preferences,
             commands::patch_preferences,

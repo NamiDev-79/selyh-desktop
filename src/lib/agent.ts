@@ -81,6 +81,8 @@ export const agent = {
 
   analytics: () => invoke<Analytics>("get_analytics"),
   consent: () => invoke<Consent>("get_consent"),
+  sleepPrompt: (date: string) => invoke<boolean>("sleep_prompt", { date }),
+  logSleep: (date: string, quality: number, hours?: number) => invoke<unknown>("log_sleep", { date, quality, hours: hours ?? null }),
   setConsent: (source: ConsentSource, granted: boolean) => invoke<Consent>("set_consent", { source, granted }),
   preferences: () => invoke<Preferences>("get_preferences"),
   patchPreferences: (patch: Partial<Preferences>) => invoke<Preferences>("patch_preferences", { patch }),
